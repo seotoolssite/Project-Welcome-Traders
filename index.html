@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Welcome Traders | Wholesale Auto Parts Pakistan</title>
+    <meta name="description" content="Welcome Traders - Leading wholesale auto parts supplier in Pakistan. Genuine brake pads, engine oil filters, suspension kits, batteries and more.">
+    <meta name="author" content="Muhammad Nabeel Khan">
+    <meta name="robots" content="index, follow">
+    
+    <!-- External CSS & Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ==================== CART SIDEBAR ==================== -->
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Shopping Cart</h3>
+        <i class="fas fa-times close-cart" onclick="closeCart()"></i>
+    </div>
+    <div id="cartItemsList"></div>
+    <div id="cartTotal" class="cart-total"></div>
+    <button class="btn checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+</div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="brand-area">
+            <div class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <h1>WELCOME TRADERS</h1>
+            </div>
+            <div class="tagline">Premium Automotive Parts – Wholesale Deals Since 2010</div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" id="globalSearch" placeholder="Search brakes, filters, batteries, suspension..." onkeyup="searchProducts()">
+        </div>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a class="nav-link" data-page="home">Home</a></li>
+                <li><a class="nav-link" data-page="categories">Categories</a></li>
+                <li><a class="nav-link" data-page="products">Products</a></li>
+                <li><a class="nav-link" data-page="dealer">Dealer</a></li>
+                <li><a class="nav-link" data-page="pos">POS Sync</a></li>
+                <li><a class="nav-link" data-page="orderHistory">My Orders</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Mode</span>
+            </div>
+            <button class="icon-btn" onclick="openCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount" class="cart-count">0</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="hero" id="heroSection">
+    <div class="container">
+        <h2>Wholesale Auto Parts<br>For Professional Traders</h2>
+        <p>Genuine OEM-quality parts | Dealer pricing | Express shipping | Bulk discounts</p>
+        <button class="btn" id="shopNowBtn">Shop Now</button>
+        <button class="btn btn-outline" id="becomeDealerBtn">Become a Dealer</button>
+    </div>
+</section>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main class="container">
+    
+    <!-- Garage Section -->
+    <div class="garage-section" id="garageSection">
+        <div class="garage-header">
+            <div>
+                <i class="fas fa-garage" style="color:var(--accent); margin-right:8px;"></i>
+                <strong>My Garage</strong> 
+                <span class="garage-subtitle">(Saved Vehicles)</span>
+            </div>
+            <button class="btn-sm btn-outline" onclick="openAddVehicleModal()">
+                <i class="fas fa-plus"></i> Add Vehicle
+            </button>
+        </div>
+        <div class="garage-vehicles" id="garageVehiclesList">
+            <span class="empty-message">No vehicles saved. Click "Add Vehicle" to save your cars.</span>
+        </div>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel" id="filterPanel">
+        <div class="filter-group">
+            <label>Select Make</label>
+            <select id="makeFilter"></select>
+        </div>
+        <div class="filter-group">
+            <label>Select Year</label>
+            <select id="yearFilter"></select>
+        </div>
+        <div class="filter-group">
+            <label>Select Model</label>
+            <select id="modelFilter">
+                <option value="">Select Make & Year first</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn" id="applyFilterBtn">Show Compatible Parts</button>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div id="categoriesSection" class="section">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="category-grid" id="categoryGrid"></div>
+    </div>
+
+    <!-- Products Section -->
+    <div id="productsSection" class="section section-hidden">
+        <h2 class="section-title">Premium Products</h2>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <!-- Compatible Parts Section -->
+    <div id="compatibleSection" class="section section-hidden">
+        <div id="compatibleHeader" class="results-header">
+            <span id="compatibleTitle"><i class="fas fa-car"></i> Compatible Parts</span>
+            <span class="back-link" onclick="showPage('home')">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </span>
+        </div>
+        <div class="product-grid" id="compatibleGrid"></div>
+    </div>
+
+    <!-- Dealer Section -->
+    <div id="dealerSection" class="section section-hidden">
+        <h2 class="section-title">Wholesale / Dealer Program</h2>
+        <div class="form-card">
+            <form id="dealerForm" onsubmit="return false;">
+                <input type="text" placeholder="Business Name" id="dealerBusiness" required class="form-input">
+                <input type="text" placeholder="Owner Full Name" id="dealerName" required class="form-input">
+                <input type="email" placeholder="Email Address" id="dealerEmail" required class="form-input">
+                <input type="tel" placeholder="Phone Number" id="dealerPhone" required class="form-input">
+                <textarea placeholder="Monthly volume / Bulk requirements" rows="3" id="dealerMsg" class="form-input"></textarea>
+                <div class="form-buttons">
+                    <button type="submit" class="btn" onclick="submitDealerInquiry()">Submit Dealer Inquiry</button>
+                    <button type="button" class="btn btn-outline" onclick="whatsappDealerInquiry()">
+                        <i class="fab fa-whatsapp"></i> Inquire via WhatsApp
+                    </button>
+                </div>
+                <div id="dealerSuccess" class="form-success"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- POS Section -->
+    <div id="posSection" class="section section-hidden">
+        <h2 class="section-title">POS System Integration</h2>
+        <div class="form-card">
+            <h3>CSV/Excel Import-Export</h3>
+            <p>Sync your offline POS inventory with the website.</p>
+            <div class="pos-buttons">
+                <button class="btn" id="exportCSVBtn">
+                    <i class="fas fa-download"></i> Export Products (CSV)
+                </button>
+                <label class="btn btn-outline import-label" style="cursor:pointer;">
+                    <i class="fas fa-upload"></i> Import CSV
+                    <input type="file" id="importCSV" accept=".csv" style="display:none;">
+                </label>
+            </div>
+            <div id="importStatus" class="import-status"></div>
+        </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div id="checkoutSection" class="section section-hidden">
+        <h2 class="section-title">Secure Checkout</h2>
+        <div class="form-card">
+            <form id="checkoutForm" onsubmit="return false;">
+                <div class="checkout-grid">
+                    <input type="text" placeholder="Full Name" id="chName" required class="form-input">
+                    <input type="tel" placeholder="Phone Number" id="chPhone" required class="form-input">
+                    <input type="text" placeholder="Address" id="chAddress" required class="form-input">
+                    <input type="text" placeholder="City" id="chCity" required class="form-input">
+                </div>
+                <textarea placeholder="Order Notes (optional)" id="chNotes" rows="2" class="form-input"></textarea>
+                <div class="payment-options">
+                    <label>
+                        <input type="radio" name="payment" value="cod" checked> Cash on Delivery
+                    </label>
+                </div>
+                <button type="submit" class="btn place-order-btn" onclick="placeOrder()">
+                    Place Order (WhatsApp Confirmation)
+                </button>
+            </form>
+            <div id="checkoutSuccess" class="checkout-success"></div>
+        </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div id="orderHistorySection" class="section section-hidden">
+        <h2 class="section-title">My Order History</h2>
+        <div class="form-card">
+            <div id="orderHistoryList"></div>
+            <button class="btn btn-outline" onclick="showPage('home')">Back to Home</button>
+        </div>
+    </div>
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+    <div class="container">
+        <p>© 2026 Welcome Traders Wholesale Auto Parts Supply</p>
+        <p class="developer-credit">Developed by Muhammad Nabeel Khan</p>
+    </div>
+</footer>
+
+<!-- ==================== MODALS ==================== -->
+<!-- Add Vehicle Modal -->
+<div id="addVehicleModal" class="modal" onclick="if(event.target===this) closeAddVehicleModal()">
+    <div class="modal-content">
+        <h3><i class="fas fa-garage"></i> Add Vehicle to Garage</h3>
+        <select id="vehicleMake" class="form-input"></select>
+        <select id="vehicleYear" class="form-input"></select>
+        <select id="vehicleModel" class="form-input">
+            <option value="">Select Make & Year first</option>
+        </select>
+        <div class="modal-buttons">
+            <button class="btn" onclick="addVehicleToGarage()">Save Vehicle</button>
+            <button class="btn btn-outline" onclick="closeAddVehicleModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Quick View Modal -->
+<div id="quickViewModal" class="modal" onclick="if(event.target===this) closeModal()">
+    <div class="modal-content" id="quickViewContent"></div>
+</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script src="js/script.js"></script>
+</body>
+</html>
